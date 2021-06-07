@@ -30,7 +30,7 @@ function toDo() {
         if (action === 4) {
             const verify = readlineSync.keyInSelect(list, 'what ToDo do you want to have a pomodoro? ');
             if(verify!==-1){
-                console.log(`Pomodoro de ${list}`)
+                console.log(`Pomodoro de ${list[verify]}`)
                 setTimeout(() => {
                     list[verify] = list[verify].concat(' 🍅');
                     fs.writeFileSync('list', JSON.stringify(list));
