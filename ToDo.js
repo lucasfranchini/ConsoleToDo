@@ -1,8 +1,10 @@
 import readlineSync from 'readline-sync';
 import showList from './showList.js';
+import fs from 'fs';
 
 const options = ['add', 'list', 'check', 'remove'];
-let list = ['🔴 a'];
+let list = [];
+if(fs.existsSync('list')) list = JSON.parse(fs.readFileSync('list'));
 let action = readlineSync.keyInSelect(options, 'Type your command ');
 while (action !== -1) {
     if (action === 0) {
@@ -13,8 +15,8 @@ while (action !== -1) {
     }
     if (action === 2) {
         const verify = readlineSync.keyInSelect(list, 'what do you want to check/uncheck? ');
-        if(list[verify].indexOf('🔴')!==-1) list[verify] = list[verify].replace('🔴',"🟢");
-        else list[verify] = list[verify].replace("🟢",'🔴');
+        if(verify!==-1 && list[verify].indexOf('🔴')!==-1) list[verify] = list[verify].replace('🔴',"🟢");
+        else if(verify!==-1)list[verify] = list[verify].replace("🟢",'🔴');
         showList(list);
     }
     if (action === 3) {
@@ -22,5 +24,6 @@ while (action !== -1) {
         list.splice(verify,1);
         showList(list);
     }
+    fs.writeFileSync('list',JSON.stringify(list))
     action = readlineSync.keyInSelect(options, 'Type your command ');
 }
