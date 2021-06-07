@@ -24,17 +24,20 @@ function toDo() {
         }
         if (action === 3) {
             const verify = readlineSync.keyInSelect(list, 'what do you want to remove? ');
-            list.splice(verify, 1);
+            if(verify!==-1) list.splice(verify, 1);
             showList(list);
         }
         if (action === 4) {
             const verify = readlineSync.keyInSelect(list, 'what ToDo do you want to have a pomodoro? ');
-            setTimeout(() => {
-                list[verify] = list[verify].concat(' 🍅');
-                fs.writeFileSync('list', JSON.stringify(list));
-                toDo();
-            }, 1500000);
-            break;
+            if(verify!==-1){
+                console.log(`Pomodoro de ${list}`)
+                setTimeout(() => {
+                    list[verify] = list[verify].concat(' 🍅');
+                    fs.writeFileSync('list', JSON.stringify(list));
+                    toDo();
+                }, 1500000);
+                break;
+            }
         }
         fs.writeFileSync('list', JSON.stringify(list))
         action = readlineSync.keyInSelect(options, 'Type your command ');
